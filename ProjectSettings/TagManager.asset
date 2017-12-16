@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Lope
   layers:
   - Default
   - TransparentFX
@@ -13,8 +14,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Lope
+  - Player
   - 
   - 
   - 
@@ -38,6 +39,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BackGround
+    uniqueID: 1020426689
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Lope
+    uniqueID: 2589535871
+    locked: 0
+  - name: Player
+    uniqueID: 1897938683
+    locked: 0
+  - name: Object
+    uniqueID: 815314705
     locked: 0
