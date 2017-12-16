@@ -7,59 +7,59 @@ public class Player : MonoBehaviour {
     public GameObject player;
     public GameObject playerImg;
     public BackGround[] backGround;
+    public LopeManager lopeManager;
     public Lope[] lope;
-    private GameObject touchLope;
-    private Vector2 playerPos;
     private Touch touch;
     private bool isMoving; // 움직이는 중이면 true
     private bool startPos; // 시작 위치에 있으면 true
+    private bool direct; // true = 왼쪽, false = 오른쪽
     private float rotate; // 상어 회전
     private int hp;
-
-    public List<Lope> lopeList = new List<Lope>();
     
     void Start()
     {
         startPos = true;
         isMoving = false;
-        touchLope = null;
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) // 마우스 클릭시 실행
-        {
-            playerPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            if (startPos)
-                CheckLope(playerPos);
-        }
-
-        if (Input.touchCount > 0) // 터치시 실행
-        {
-            touch = Input.GetTouch(0);
-            playerPos = Camera.main.ScreenToViewportPoint(touch.position);
-            if (startPos)
-                CheckLope(playerPos);
-        }
-
         StartCoroutine(Move());
         StartCoroutine(RotatePlayer());
         if (!isMoving)
             StartCoroutine(SetStart());
     }
 
+    public void LeftButton()
+    {
+        direct = true;
+        isMoving = true;
+        startPos = false;
+    }
+
+    public void RightButton()
+    {
+        direct = false;
+        isMoving = true;
+        startPos = false;
+    }
+
     IEnumerator Move()
     {
         while (isMoving)
         {
-            if (player.transform.position.x >= playerPos.x - 0.05f && player.transform.position.x <= playerPos.x + 0.05f)
+            lopeManager.SelectLope();
+            if (direct)
             {
+                if (player.transform.position.x >= -3.0f)
+                    player.transform.Translate(Vector2.left * 0.1f);
+
                 if (player.transform.position.y <= 1.0f)
                     player.transform.Translate(Vector2.up * 0.1f);
                 else
                 {
                     isMoving = false;
-                    Debug.Log("StopMoving");
+                    //Debug.Log("StopMoving");
                     backGround[0].isMoving = true;
                     backGround[1].isMoving = true;
                     lope[0].isMoving = true;
@@ -68,38 +68,27 @@ public class Player : MonoBehaviour {
                     lope[3].isMoving = true;
                 }
             }
-            else if (player.transform.position.x > playerPos.x)
-            {
-                if (player.transform.position.x >= -3.0f)
-                    player.transform.Translate(Vector2.left * 0.1f);
-            }
-            else if (player.transform.position.x < playerPos.x)
+            else if (!direct)
             {
                 if (player.transform.position.x <= 3.0f)
                     player.transform.Translate(Vector2.right * 0.1f);
+
+                if (player.transform.position.y <= 1.0f)
+                    player.transform.Translate(Vector2.up * 0.1f);
+                else
+                {
+                    isMoving = false;
+                    //Debug.Log("StopMoving");
+                    backGround[0].isMoving = true;
+                    backGround[1].isMoving = true;
+                    lope[0].isMoving = true;
+                    lope[1].isMoving = true;
+                    lope[2].isMoving = true;
+                    lope[3].isMoving = true;
+                }
             }
 
             yield break;
-        }
-    }
-
-    private void CheckLope(Vector2 pos)
-    {
-        Ray2D ray = new Ray2D(pos, Vector2.zero);
-        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
-        if (hit.collider != null)
-        {
-            if (hit.collider.gameObject.tag == "Lope")
-            {
-                touchLope = hit.collider.gameObject;
-                Debug.Log(touchLope);
-                isMoving = true;
-                startPos = false;
-            }
-        }
-        else
-        {
-            touchLope = null;
         }
     }
 
@@ -114,6 +103,7 @@ public class Player : MonoBehaviour {
                 if (player.transform.position.x <= 0.0f)
                     player.transform.Translate(Vector2.right * 0.1f);
                 player.transform.position = new Vector2(player.transform.position.x, backGround[i].transform.position.y - 9.6f);
+                playerImg.transform.rotation = new Quaternion(0, 0, 0, 0);
             }
         }
         startPos = true;

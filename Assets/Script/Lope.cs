@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class Lope : MonoBehaviour
 {
-    public int ID;
-    public string Name;
-
-    public Lope(int id, string name)
-    {
-        ID = id;
-        Name = name;
-    }
-
     public GameObject lope;
     public bool isMoving = false;
     public int pos; // 0이면 화면에 보이는 위치, 1이면 화면에 안보이는 위치
+    public int kind;
 
     void Update()
     {
@@ -30,7 +22,7 @@ public class Lope : MonoBehaviour
             case 0:
                 if (lope.transform.position.y <= -15.8f)
                 {
-                    lope.transform.position = new Vector2(lope.transform.position.x, 28.6f);
+                    lope.transform.position = new Vector3(lope.transform.position.x, 28.6f, 0);
                     pos = 1;
                     isMoving = false;
                 }
@@ -39,7 +31,7 @@ public class Lope : MonoBehaviour
             case 1:
                 if (lope.transform.position.y <= 7.0f)
                 {
-                    lope.transform.position = new Vector2(lope.transform.position.x, 7.0f);
+                    lope.transform.position = new Vector3(lope.transform.position.x, 7.0f, -1);
                     pos = 0;
                     isMoving = false;
                 }
