@@ -25,6 +25,7 @@ public class Lope : MonoBehaviour
                     lope.transform.position = new Vector3(lope.transform.position.x, 28.6f, 0);
                     pos = 1;
                     isMoving = false;
+
                 }
                 lope.transform.Translate(Vector2.down * 4 * Time.deltaTime);
                 break;

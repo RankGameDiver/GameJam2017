@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
+    public Text t_text;
     public GameObject player;
     public GameObject playerImg;
     public BackGround[] backGround;
@@ -16,10 +18,14 @@ public class Player : MonoBehaviour {
     private bool startPos; // 시작 위치에 있으면 true
     private bool direct; // true = 왼쪽, false = 오른쪽
     private float rotate; // 상어 회전
-    private int hp;
+    public int vital; // 심장박동
+    private float maxTime;
+    private float tempTime;
     
     void Start()
     {
+        vital = 120;
+        maxTime = 3;
         startPos = true;
         isMoving = false;
     }
@@ -39,6 +45,13 @@ public class Player : MonoBehaviour {
             playerPos = Camera.main.ScreenToViewportPoint(touch.position);
             Ray(playerPos);
         }
+        tempTime += Time.deltaTime;
+        if (tempTime > maxTime)
+        {
+            vital = vital - (9 - (vital / 30));
+            tempTime = 0;
+        }
+        t_text.text = vital.ToString();
 
         StartCoroutine(Move());
         StartCoroutine(RotatePlayer());
@@ -58,16 +71,19 @@ public class Player : MonoBehaviour {
                 hit.collider.gameObject.SetActive(false);
                 GameObject tempObj = hit.collider.gameObject;
                 tempObj.GetComponent<Talk>().toMuchTalker.GetComponent<ToMuchTalker>().DelCount();
+                vital += 3;
 
             }
             if (hit.collider.gameObject.name == "BlackBoard(Clone)")
             {
                 GameObject tempObj = hit.collider.gameObject;
                 Destroy(tempObj);
+                vital += 9;
             }
             if (hit.collider.gameObject.name == "witch(Clone)")
             {
                 hit.collider.gameObject.GetComponent<witch>().Act();
+                vital += 9;
             }
         }
     }
@@ -106,6 +122,7 @@ public class Player : MonoBehaviour {
                     lope[1].isMoving = true;
                     lope[2].isMoving = true;
                     lope[3].isMoving = true;
+                    vital += 10;
                     lopeManager.SelectLope();
                 }
             }

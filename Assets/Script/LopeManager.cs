@@ -14,7 +14,7 @@ public class LopeManager : MonoBehaviour
 
     void Start()
     {
-        maxLopes = 9;
+        maxLopes = 10;
         maxEvent = 3;
         isMoving = false;
     }
