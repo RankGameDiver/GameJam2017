@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Lope
+  - talk
+  - eventObj
+  - activeObj
   layers:
   - Default
   - TransparentFX
@@ -53,4 +56,7 @@ TagManager:
     locked: 0
   - name: Object
     uniqueID: 815314705
+    locked: 0
+  - name: Event
+    uniqueID: 1866898965
     locked: 0

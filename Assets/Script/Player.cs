@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
     public LopeManager lopeManager;
     public Lope[] lope;
     private Touch touch;
+    private Vector2 playerPos;
     private bool isMoving; // 움직이는 중이면 true
     private bool startPos; // 시작 위치에 있으면 true
     private bool direct; // true = 왼쪽, false = 오른쪽
@@ -24,10 +25,53 @@ public class Player : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0)) // 마우스 클릭시 실행
+        {
+            Debug.Log("mouse Click");
+            playerPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Ray(playerPos);
+        }
+
+        if (Input.touchCount > 0) // 터치시 실행
+        {
+            touch = Input.GetTouch(0);
+            playerPos = Camera.main.ScreenToViewportPoint(touch.position);
+            Ray(playerPos);
+        }
+
         StartCoroutine(Move());
         StartCoroutine(RotatePlayer());
         if (!isMoving)
             StartCoroutine(SetStart());
+    }
+
+    public void Ray(Vector2 pos)
+    {
+        Ray2D ray = new Ray2D(pos, Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.tag == "talk")
+            {
+                hit.collider.gameObject.SetActive(false);
+            }
+            if (hit.collider.gameObject.tag == "eventObj")
+            {
+                Destroy(hit.collider.gameObject);
+            }
+            if (hit.collider.gameObject.tag == "activeObj")
+            {
+                if (hit.collider.gameObject.name == "witch")
+                {
+                    hit.collider.gameObject.GetComponent<witch>().Act();
+                }
+                else if (hit.collider.gameObject.name == "candy")
+                {
+                    hit.collider.gameObject.GetComponent<CandyBar>().Act();
+                    hit.collider.gameObject.GetComponent<CandyBar>().health--;
+                }
+            }
+        }
     }
 
     public void LeftButton()
@@ -47,8 +91,7 @@ public class Player : MonoBehaviour {
     IEnumerator Move()
     {
         while (isMoving)
-        {
-            lopeManager.SelectLope();
+        {        
             if (direct)
             {
                 if (player.transform.position.x >= -3.0f)
@@ -59,13 +102,13 @@ public class Player : MonoBehaviour {
                 else
                 {
                     isMoving = false;
-                    //Debug.Log("StopMoving");
                     backGround[0].isMoving = true;
                     backGround[1].isMoving = true;
                     lope[0].isMoving = true;
                     lope[1].isMoving = true;
                     lope[2].isMoving = true;
                     lope[3].isMoving = true;
+                    lopeManager.SelectLope();
                 }
             }
             else if (!direct)
@@ -78,16 +121,15 @@ public class Player : MonoBehaviour {
                 else
                 {
                     isMoving = false;
-                    //Debug.Log("StopMoving");
                     backGround[0].isMoving = true;
                     backGround[1].isMoving = true;
                     lope[0].isMoving = true;
                     lope[1].isMoving = true;
                     lope[2].isMoving = true;
                     lope[3].isMoving = true;
+                    lopeManager.SelectLope();
                 }
             }
-
             yield break;
         }
     }

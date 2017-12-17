@@ -8,10 +8,11 @@ public class Lope : MonoBehaviour
     public bool isMoving = false;
     public int pos; // 0이면 화면에 보이는 위치, 1이면 화면에 안보이는 위치
     public int kind;
+    public bool lopeAct = false;
 
     void Update()
     {
-        if (isMoving)
+        if (isMoving && !lopeAct)
             MoveBackGround();
     }
 
@@ -26,7 +27,14 @@ public class Lope : MonoBehaviour
                     pos = 1;
                     isMoving = false;
                 }
-                lope.transform.Translate(Vector2.down * 4 * Time.deltaTime);
+
+                if (lopeAct)
+                {
+                    if (lope.transform.position.y <= -7.97f)
+                        lope.transform.Translate(Vector2.down * 4 * Time.deltaTime);
+                }
+                else
+                    lope.transform.Translate(Vector2.down * 4 * Time.deltaTime);
                 break;
             case 1:
                 if (lope.transform.position.y <= 7.0f)
@@ -35,7 +43,14 @@ public class Lope : MonoBehaviour
                     pos = 0;
                     isMoving = false;
                 }
-                lope.transform.Translate(Vector2.down * 4 * Time.deltaTime);
+
+                if (lopeAct)
+                {
+                    if (lope.transform.position.y <= 13.56f)
+                        lope.transform.Translate(Vector2.down * 4 * Time.deltaTime);
+                }
+                else
+                    lope.transform.Translate(Vector2.down * 4 * Time.deltaTime);
                 break;
         }
     }
