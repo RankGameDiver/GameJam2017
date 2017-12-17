@@ -7,11 +7,10 @@ public class BackGround : MonoBehaviour {
     public GameObject backGround;
     public bool isMoving = false;
     public int pos; // 0이면 화면에 보이는 위치, 1이면 화면에 안보이는 위치
-    public bool lopeAct = false;
 
     void Update()
     {
-        if (isMoving && !lopeAct)
+        if (isMoving)
             MoveBackGround();
     }
 
@@ -26,13 +25,7 @@ public class BackGround : MonoBehaviour {
                     pos = 1;
                     isMoving = false;
                 }
-                if (lopeAct)
-                {
-                    if (backGround.transform.position.y <= -9.17f)
-                        backGround.transform.Translate(Vector2.down * 4 * Time.deltaTime);
-                }
-                else
-                    backGround.transform.Translate(Vector2.down * 4 * Time.deltaTime);
+                backGround.transform.Translate(Vector2.down * 4 * Time.deltaTime);
                 break;
             case 1:
                 if (backGround.transform.position.y <= 5.8f)
@@ -41,13 +34,7 @@ public class BackGround : MonoBehaviour {
                     pos = 0;
                     isMoving = false;
                 }
-                if (lopeAct)
-                {
-                    if(backGround.transform.position.y <= 12.42f)
-                    backGround.transform.Translate(Vector2.down * 4 * Time.deltaTime);
-                }
-                else
-                    backGround.transform.Translate(Vector2.down * 4 * Time.deltaTime);
+                backGround.transform.Translate(Vector2.down * 4 * Time.deltaTime);
                 break;
         }
     }

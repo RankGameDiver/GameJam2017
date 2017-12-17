@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     public Lope[] lope;
     private Touch touch;
     private Vector2 playerPos;
+    public GameObject[] eventObj;
     private bool isMoving; // 움직이는 중이면 true
     private bool startPos; // 시작 위치에 있으면 true
     private bool direct; // true = 왼쪽, false = 오른쪽
@@ -51,25 +52,22 @@ public class Player : MonoBehaviour {
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
         if (hit.collider != null)
         {
+            Debug.Log(hit.collider.gameObject);
             if (hit.collider.gameObject.tag == "talk")
             {
                 hit.collider.gameObject.SetActive(false);
+                GameObject tempObj = hit.collider.gameObject;
+                tempObj.GetComponent<Talk>().toMuchTalker.GetComponent<ToMuchTalker>().DelCount();
+
             }
-            if (hit.collider.gameObject.tag == "eventObj")
+            if (hit.collider.gameObject.name == "BlackBoard(Clone)")
             {
-                Destroy(hit.collider.gameObject);
+                GameObject tempObj = hit.collider.gameObject;
+                Destroy(tempObj);
             }
-            if (hit.collider.gameObject.tag == "activeObj")
+            if (hit.collider.gameObject.name == "witch(Clone)")
             {
-                if (hit.collider.gameObject.name == "witch")
-                {
-                    hit.collider.gameObject.GetComponent<witch>().Act();
-                }
-                else if (hit.collider.gameObject.name == "candy")
-                {
-                    hit.collider.gameObject.GetComponent<CandyBar>().Act();
-                    hit.collider.gameObject.GetComponent<CandyBar>().health--;
-                }
+                hit.collider.gameObject.GetComponent<witch>().Act();
             }
         }
     }

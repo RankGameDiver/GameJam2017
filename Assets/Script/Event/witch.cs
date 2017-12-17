@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class witch : MonoBehaviour {
-
+    public GameObject temp;
     public GameObject[] witchs;
     private float maxTime;
     private float tempTime;
@@ -35,7 +35,8 @@ public class witch : MonoBehaviour {
             {
                 witchs[1].transform.Translate(Vector2.up * 0.2f);
             }
-            Destroy(gameObject);
+            else
+                Destroy(temp);
             yield break;
         }
     }

@@ -49,12 +49,6 @@ public class LopeManager : MonoBehaviour
                     {
                         lopeArr[i].GetComponent<SpriteRenderer>().sprite = lopeImg[6];
                         lopeArr[i].tag = "activeObj";
-                        lopeArr[0].GetComponent<Lope>().lopeAct = true;
-                        lopeArr[1].GetComponent<Lope>().lopeAct = true;
-                        lopeArr[2].GetComponent<Lope>().lopeAct = true;
-                        lopeArr[3].GetComponent<Lope>().lopeAct = true;
-                        backGround[0].GetComponent<BackGround>().lopeAct = true;
-                        backGround[1].GetComponent<BackGround>().lopeAct = true;
                         lopeArr[i].GetComponent<Lope>().kind = 6;
                     }
                     else
