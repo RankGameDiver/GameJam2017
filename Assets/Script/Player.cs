@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour {
 
@@ -25,7 +26,7 @@ public class Player : MonoBehaviour {
     void Start()
     {
         vital = 120;
-        maxTime = 3;
+        maxTime = 1;
         startPos = true;
         isMoving = false;
     }
@@ -57,6 +58,12 @@ public class Player : MonoBehaviour {
         StartCoroutine(RotatePlayer());
         if (!isMoving)
             StartCoroutine(SetStart());
+
+        if (vital <= 0 || vital >= 180)
+        {
+            SceneManager.LoadScene("GameOver");
+        }
+
     }
 
     public void Ray(Vector2 pos)

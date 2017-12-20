@@ -14,7 +14,7 @@ public class CharSelect : MonoBehaviour {
     void Start()
     {
         kind = 0;
-        maxChar = 3;
+        maxChar = 1;
     }
 
     public void Game()
